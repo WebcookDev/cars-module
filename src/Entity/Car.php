@@ -36,12 +36,12 @@ class Car extends \WebCMS\Entity\Entity
 	private $priceVat;
 
 	/**
-     * @ORM\Column(type="mediumint", nullable=true)
+     * @ORM\Column(type="smallint", nullable=true)
      */
 	private $enginePower;
 
     /**
-     * @ORM\Column(type="mediumint", nullable=true)
+     * @ORM\Column(type="smallint", nullable=true)
      */
     private $engineVolume;
 
@@ -86,7 +86,7 @@ class Car extends \WebCMS\Entity\Entity
     private $transmission;
 
     /**
-     * @ORM\Column(type="tinyint", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $sold;
 
