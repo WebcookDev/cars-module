@@ -1,10 +1,9 @@
 {block content}
 	
 	<div class="page-heading">	
-		<h1>{$actualPage->getTitle()}</h1>
 		{include ../tabs.latte active => 'cars'}
 	</div>
-	
+
 	<br />
 	<a class="btn btn-primary" n:href="synchronize idPage => $idPage">{_'Synchronize'}</a>
 	<br /><br />

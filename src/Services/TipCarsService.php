@@ -32,6 +32,10 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 	{
 		$cars = $data->firma->cars;
 
+		if (!is_object($cars)) {
+			throw new \Exception('No data.');
+		}
+
 		foreach ($cars->car as $car) {
 			$exists = $this->em->getRepository('WebCMS\CarsModule\Entity\Car')->findOneByServiceId($this->getObjectValue($car->custom_car_id));
 

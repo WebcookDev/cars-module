@@ -105,11 +105,19 @@ class CarsPresenter extends BasePresenter
 
     public function actionSynchronize()
     {
-        $service = new Services\TipCarsService($this->em, $this->settings);
-        $data = $service->synchronize();
+        $serviceType = $this->settings->get('service', 'carsModule')->getValue();
 
-        $this->flashMessage('Data has been downloaded from the service point.', 'success');
-        $this->forward('default', array(
+        $serviceFactory = new Common\ServiceFactory($serviceType, $this->em, $this->settings);
+        $service = $serviceFactory->createService();
+
+        try {
+            $service->synchronize();    
+            $this->flashMessage('Data has been downloaded from the service point.', 'success');
+        } catch (Exception $e) {
+            $this->flashMessage($e->getMessage(), 'danger');
+        }
+        
+        $this->redirect('default', array(
             'idPage' => $this->actualPage->getId()
         ));   
     }

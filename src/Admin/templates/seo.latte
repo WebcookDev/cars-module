@@ -1,7 +1,10 @@
 {block #content}
 	
-	{include tabs.latte active => 'seo'}
+	<div class="page-heading">
+		{include tabs.latte active => 'seo'}
+	</div>
 	
-	{include $basePathModule . "AdminModule/templates/system/seoSettings.latte"}
+	{var t = $basePathModule . "AdminModule/templates/system/seoSettings.latte"}
+  	{include $t id => $idPage}
 
 {/block}
