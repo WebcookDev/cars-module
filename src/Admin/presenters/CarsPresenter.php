@@ -9,6 +9,10 @@ namespace AdminModule\CarsModule;
 
 use Nette\Forms\Form;
 use WebCMS\CarsModule\Entity\Car;
+use WebCMS\CarsModule\Entity\Brand;
+use WebCMS\CarsModule\Entity\Model;
+use WebCMS\CarsModule\Entity\Condition;
+use WebCMS\CarsModule\Entity\FuelType;
 
 /**
  * Description of
@@ -17,7 +21,7 @@ use WebCMS\CarsModule\Entity\Car;
  */
 class CarsPresenter extends BasePresenter
 {
-    private $investment;
+    private $car;
 
     protected function startup()
     {
@@ -33,12 +37,20 @@ class CarsPresenter extends BasePresenter
     {
         $grid = $this->createGrid($this, $name, "\WebCMS\CarsModule\Entity\Car");
 
-        $grid->addColumnNumber('id', 'Car id')->setSortable();
         $grid->addColumnText('name', 'Name')->setCustomRender(function($item) {
             return $item->getName();
         });
-        $grid->addColumnText('priceVat', 'Price with VAT')->setCustomRender(function($item) {
-            return $item->getPriceVat();
+        $grid->addColumnText('brand', 'Brand')->setCustomRender(function($item) {
+            return $item->getModel()->getBrand()->getName();
+        });
+        $grid->addColumnText('model', 'Model')->setCustomRender(function($item) {
+            return $item->getModel()->getName();
+        });
+        $grid->addColumnText('fuelType', 'Fuel type')->setCustomRender(function($item) {
+            return $item->getFuelType()->getName();
+        });
+        $grid->addColumnText('condition', 'Condition')->setCustomRender(function($item) {
+            return $item->getCondition()->getName();
         });
 
         $grid->addActionHref("update", 'Edit', 'update', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
