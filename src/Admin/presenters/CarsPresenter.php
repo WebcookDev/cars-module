@@ -13,11 +13,14 @@ use WebCMS\CarsModule\Entity\Brand;
 use WebCMS\CarsModule\Entity\Model;
 use WebCMS\CarsModule\Entity\Condition;
 use WebCMS\CarsModule\Entity\FuelType;
+use WebCMS\CarsModule\Common;
+use WebCMS\CarsModule\Services;
 
 /**
- * Description of
+ * Main controller
  *
  * @author Jakub Sanda <jakub.sanda@webcook.cz>
+ * @author Tomas Voslar <tomas.voslar@webcook.cz>
  */
 class CarsPresenter extends BasePresenter
 {
@@ -48,9 +51,9 @@ class CarsPresenter extends BasePresenter
     {
         $grid = $this->createGrid($this, $name, "\WebCMS\CarsModule\Entity\Car");
 
-        $grid->addColumnText('name', 'Name')->setCustomRender(function($item) {
-            return $item->getName();
-        });
+        $grid->addColumnText('name', 'Name');
+        $grid->addColumnText('drivenKm', 'Driven');
+        $grid->addColumnDate('dateOfManufacture', 'Date');
         $grid->addColumnText('brand', 'Brand')->setCustomRender(function($item) {
             return $item->getModel()->getBrand()->getName();
         });
@@ -97,6 +100,17 @@ class CarsPresenter extends BasePresenter
         $this->em->flush();
         $this->flashMessage('Not implemented yet.', 'success');
         
-        $this->redirect('this');
+        $this->forward('this');
+    }
+
+    public function actionSynchronize()
+    {
+        $service = new Services\TipCarsService($this->em, $this->settings);
+        $data = $service->synchronize();
+
+        $this->flashMessage('Data has been downloaded from the service point.', 'success');
+        $this->forward('default', array(
+            'idPage' => $this->actualPage->getId()
+        ));   
     }
 }

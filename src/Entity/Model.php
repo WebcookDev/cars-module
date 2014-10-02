@@ -67,7 +67,7 @@ class Model extends \WebCMS\Entity\Entity
      *
      * @return self
      */
-    public function setBrand($brand)
+    public function setBrand(Brand $brand)
     {
         $this->brand = $brand;
 

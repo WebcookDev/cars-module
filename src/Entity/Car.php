@@ -23,6 +23,11 @@ class Car extends \WebCMS\Entity\Entity
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
+	private $serviceId;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
 	private $drivenKm;
 
 	/**
@@ -31,8 +36,10 @@ class Car extends \WebCMS\Entity\Entity
 	private $price;
 
 	/**
-     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     * @ORM\Column(type="decimal", scale=0, nullable=true)
      */
+	private $vat;
+
 	private $priceVat;
 
 	/**
@@ -46,7 +53,7 @@ class Car extends \WebCMS\Entity\Entity
     private $engineVolume;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="date", length=255, nullable=true)
      */
     private $dateOfManufacture;
 
@@ -71,7 +78,7 @@ class Car extends \WebCMS\Entity\Entity
     private $transmission;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $sold;
 
@@ -90,140 +97,293 @@ class Car extends \WebCMS\Entity\Entity
      */
     private $fuelType;
 
+    /**
+     * Gets the value of name.
+     *
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-    //TODO add markup
-	
-	public function getName() 
-	{
-		return $this->name;
-	}
+    /**
+     * Sets the value of name.
+     *
+     * @param mixed $name the name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-	public function getDrivenKm() 
-	{
-		return $this->drivenKm;
-	}
+        return $this;
+    }
 
-	public function getPrice() 
-	{
-		return $this->price;
-	}
+    /**
+     * Gets the value of drivenKm.
+     *
+     * @return mixed
+     */
+    public function getDrivenKm()
+    {
+        return $this->drivenKm;
+    }
 
-	public function getPriceVat() 
-	{
-		return $this->priceVat;
-	}
+    /**
+     * Sets the value of drivenKm.
+     *
+     * @param mixed $drivenKm the driven km
+     *
+     * @return self
+     */
+    public function setDrivenKm($drivenKm)
+    {
+        $this->drivenKm = $drivenKm;
 
-	public function getEnginePower() 
-	{
-		return $this->enginePower;
-	}
+        return $this;
+    }
 
-	public function getEngineVolume() 
-	{
-		return $this->engineVolume;
-	}
+    /**
+     * Gets the value of price.
+     *
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
 
-	public function getDateOfManufacture() 
-	{
-		return $this->dateOfManufacture;
-	}
+    /**
+     * Sets the value of price.
+     *
+     * @param mixed $price the price
+     *
+     * @return self
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
 
-	public function getShortInfo() 
-	{
-		return $this->shortInfo;
-	}
+        return $this;
+    }
 
-	public function getBodywork() 
-	{
-		return $this->bodywork;
-	}
+    /**
+     * Gets the value of priceVat.
+     *
+     * @return mixed
+     */
+    public function getPriceVat()
+    {
+        return $this->price * ($this->vat / 100 + 1);
+    }
 
-	public function getColor() 
-	{
-		return $this->color;
-	}
+    /**
+     * Sets the value of priceVat.
+     *
+     * @param mixed $priceVat the price vat
+     *
+     * @return self
+     */
+    public function setPriceVat($priceVat)
+    {
+        $this->priceVat = $priceVat;
 
-	public function getTransmission() 
-	{
-		return $this->transmission;
-	}
+        return $this;
+    }
 
-	public function getSold() 
-	{
-		return $this->sold;
-	}
+    /**
+     * Gets the value of enginePower.
+     *
+     * @return mixed
+     */
+    public function getEnginePower()
+    {
+        return $this->enginePower;
+    }
 
-	public function setName($name) 
-	{
-		$this->name = $name;
-		return $this;
-	}
+    /**
+     * Sets the value of enginePower.
+     *
+     * @param mixed $enginePower the engine power
+     *
+     * @return self
+     */
+    public function setEnginePower($enginePower)
+    {
+        $this->enginePower = $enginePower;
 
-	public function setDrivenKm($drivenKm) 
-	{
-		$this->drivenKm = $drivenKm;
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setPrice($price) 
-	{
-		$this->price = $price;
-		return $this;
-	}
+    /**
+     * Gets the value of engineVolume.
+     *
+     * @return mixed
+     */
+    public function getEngineVolume()
+    {
+        return $this->engineVolume;
+    }
 
-	public function setPriceVat($priceVat) 
-	{
-		$this->priceVat = $priceVat;
-		return $this;
-	}
+    /**
+     * Sets the value of engineVolume.
+     *
+     * @param mixed $engineVolume the engine volume
+     *
+     * @return self
+     */
+    public function setEngineVolume($engineVolume)
+    {
+        $this->engineVolume = $engineVolume;
 
-	public function setEnginePower($enginePower) 
-	{
-		$this->enginePower = $enginePower;
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setEngineVolume($engineVolume) 
-	{
-		$this->engineVolume = $engineVolume;
-		return $this;
-	}
+    /**
+     * Gets the value of dateOfManufacture.
+     *
+     * @return mixed
+     */
+    public function getDateOfManufacture()
+    {
+        return $this->dateOfManufacture;
+    }
 
-	public function setDateOfManufacture($dateOfManufacture) 
-	{
-		$this->dateOfManufacture = $dateOfManufacture;
-		return $this;
-	}
+    /**
+     * Sets the value of dateOfManufacture.
+     *
+     * @param mixed $dateOfManufacture the date of manufacture
+     *
+     * @return self
+     */
+    public function setDateOfManufacture($dateOfManufacture)
+    {
+        $this->dateOfManufacture = $dateOfManufacture;
 
-	public function setShortInfo($shortInfo) 
-	{
-		$this->shortInfo = $shortInfo;
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setBodywork($bodywork) 
-	{
-		$this->bodywork = $bodywork;
-		return $this;
-	}
+    /**
+     * Gets the value of shortInfo.
+     *
+     * @return mixed
+     */
+    public function getShortInfo()
+    {
+        return $this->shortInfo;
+    }
 
-	public function setColor($color) 
-	{
-		$this->color = $color;
-		return $this;
-	}
+    /**
+     * Sets the value of shortInfo.
+     *
+     * @param mixed $shortInfo the short info
+     *
+     * @return self
+     */
+    public function setShortInfo($shortInfo)
+    {
+        $this->shortInfo = $shortInfo;
 
-	public function setTransmission($transmission) 
-	{
-		$this->transmission = $transmission;
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setSold($sold) 
-	{
-		$this->sold = $sold;
-		return $this;
-	}
+    /**
+     * Gets the value of bodywork.
+     *
+     * @return mixed
+     */
+    public function getBodywork()
+    {
+        return $this->bodywork;
+    }
+
+    /**
+     * Sets the value of bodywork.
+     *
+     * @param mixed $bodywork the bodywork
+     *
+     * @return self
+     */
+    public function setBodywork($bodywork)
+    {
+        $this->bodywork = $bodywork;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of color.
+     *
+     * @return mixed
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Sets the value of color.
+     *
+     * @param mixed $color the color
+     *
+     * @return self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of transmission.
+     *
+     * @return mixed
+     */
+    public function getTransmission()
+    {
+        return $this->transmission;
+    }
+
+    /**
+     * Sets the value of transmission.
+     *
+     * @param mixed $transmission the transmission
+     *
+     * @return self
+     */
+    public function setTransmission($transmission)
+    {
+        $this->transmission = $transmission;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of sold.
+     *
+     * @return mixed
+     */
+    public function getSold()
+    {
+        return $this->sold;
+    }
+
+    /**
+     * Sets the value of sold.
+     *
+     * @param mixed $sold the sold
+     *
+     * @return self
+     */
+    public function setSold($sold)
+    {
+        $this->sold = $sold;
+
+        return $this;
+    }
 
     /**
      * Gets the value of model.
@@ -274,7 +434,7 @@ class Car extends \WebCMS\Entity\Entity
     }
 
     /**
-     * Gets the value of fuel type.
+     * Gets the value of fuelType.
      *
      * @return mixed
      */
@@ -284,7 +444,7 @@ class Car extends \WebCMS\Entity\Entity
     }
 
     /**
-     * Sets the value of fuel type.
+     * Sets the value of fuelType.
      *
      * @param mixed $fuelType the fuel type
      *
@@ -293,6 +453,54 @@ class Car extends \WebCMS\Entity\Entity
     public function setFuelType($fuelType)
     {
         $this->fuelType = $fuelType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of serviceId.
+     *
+     * @return mixed
+     */
+    public function getServiceId()
+    {
+        return $this->serviceId;
+    }
+
+    /**
+     * Sets the value of serviceId.
+     *
+     * @param mixed $serviceId the service id
+     *
+     * @return self
+     */
+    public function setServiceId($serviceId)
+    {
+        $this->serviceId = $serviceId;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of vat.
+     *
+     * @return mixed
+     */
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    /**
+     * Sets the value of vat.
+     *
+     * @param mixed $vat the vat
+     *
+     * @return self
+     */
+    public function setVat($vat)
+    {
+        $this->vat = $vat;
 
         return $this;
     }

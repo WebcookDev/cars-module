@@ -7,6 +7,8 @@
 
 namespace AdminModule\CarsModule;
 
+use WebCMS\CarsModule\Services;
+
 /**
  * Description of 
  * @author Jakub Sanda <jakub.sanda@webcook.cz>
@@ -31,6 +33,11 @@ class SettingsPresenter extends BasePresenter
     {
 		$settings = array();
 
+        $settings[] = $this->settings->get('service', 'carsModule', 'select', array(
+            Services\TipCarsService::getServiceName() => 'Tip cars'
+        ));
+        $settings[] = $this->settings->get('Tipcars username', 'carsModule', 'text');
+        $settings[] = $this->settings->get('Tipcars service id', 'carsModule', 'text');
 
 		return $this->createSettingsForm($settings);
     }
