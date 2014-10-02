@@ -37,6 +37,9 @@ class CarsPresenter extends BasePresenter
         $grid->addColumnText('name', 'Name')->setCustomRender(function($item) {
             return $item->getName();
         });
+        $grid->addColumnText('priceVat', 'Price with VAT')->setCustomRender(function($item) {
+            return $item->getPriceVat();
+        });
 
         $grid->addActionHref("update", 'Edit', 'update', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
 
