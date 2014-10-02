@@ -76,17 +76,17 @@ class Car extends \WebCMS\Entity\Entity
     private $sold;
 
     /**
-     * @ORM\OneToOne(targetEntity="Model") 
+     * @ORM\ManyToOne(targetEntity="Model") 
      */
     private $model;
 
     /**
-     * @ORM\OneToOne(targetEntity="Condition") 
+     * @ORM\ManyToOne(targetEntity="Condition") 
      */
     private $condition;
 
     /**
-     * @ORM\OneToOne(targetEntity="FuelType") 
+     * @ORM\ManyToOne(targetEntity="FuelType") 
      */
     private $fuelType;
 

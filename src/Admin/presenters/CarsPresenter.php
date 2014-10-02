@@ -33,6 +33,17 @@ class CarsPresenter extends BasePresenter
 	   parent::beforeRender();
     }
 
+    public function actionDefault($idPage)
+    {
+
+    }
+
+    public function renderDefault($idPage)
+    {
+        $this->reloadContent();
+        $this->template->idPage = $idPage;
+    }
+
     protected function createComponentGrid($name)
     {
         $grid = $this->createGrid($this, $name, "\WebCMS\CarsModule\Entity\Car");
@@ -67,14 +78,25 @@ class CarsPresenter extends BasePresenter
         $this->template->idPage = $idPage;
     }
 
-    public function actionDefault($idPage)
+    protected function createComponentCarForm()
     {
+        $form = $this->createForm();
+                
+        $form->addSubmit('submit', 'Save')->setAttribute('class', 'btn btn-success');
+        $form->onSuccess[] = callback($this, 'carFormSubmitted');
 
+        $form->setDefaults($this->car->toArray());
+        
+        return $form;
     }
-
-    public function renderDefault($idPage)
+    
+    public function carFormSubmitted($form)
     {
-    	$this->reloadContent();
-    	$this->template->idPage = $idPage;
+        $values = $form->getValues();
+        
+        $this->em->flush();
+        $this->flashMessage('Not implemented yet.', 'success');
+        
+        $this->redirect('this');
     }
 }

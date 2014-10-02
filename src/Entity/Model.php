@@ -21,7 +21,7 @@ class Model extends \WebCMS\Entity\Entity
 	private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Brand") 
+     * @ORM\ManyToOne(targetEntity="Brand") 
      */
     private $brand;
 
