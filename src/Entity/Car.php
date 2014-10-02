@@ -58,27 +58,12 @@ class Car extends \WebCMS\Entity\Entity
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $brand;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $model;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $bodywork;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $color;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $fuel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -90,146 +75,225 @@ class Car extends \WebCMS\Entity\Entity
      */
     private $sold;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Model") 
+     */
+    private $model;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Condition") 
+     */
+    private $condition;
+
+    /**
+     * @ORM\OneToOne(targetEntity="FuelType") 
+     */
+    private $fuelType;
+
 
     //TODO add markup
 	
-	public function getName() {
+	public function getName() 
+	{
 		return $this->name;
 	}
 
-	public function getDrivenKm() {
+	public function getDrivenKm() 
+	{
 		return $this->drivenKm;
 	}
 
-	public function getPrice() {
+	public function getPrice() 
+	{
 		return $this->price;
 	}
 
-	public function getPriceVat() {
+	public function getPriceVat() 
+	{
 		return $this->priceVat;
 	}
 
-	public function getEnginePower() {
+	public function getEnginePower() 
+	{
 		return $this->enginePower;
 	}
 
-	public function getEngineVolume() {
+	public function getEngineVolume() 
+	{
 		return $this->engineVolume;
 	}
 
-	public function getDateOfManufacture() {
+	public function getDateOfManufacture() 
+	{
 		return $this->dateOfManufacture;
 	}
 
-	public function getShortInfo() {
+	public function getShortInfo() 
+	{
 		return $this->shortInfo;
 	}
 
-	public function getBrand() {
-		return $this->brand;
-	}
-
-	public function getModel() {
-		return $this->model;
-	}
-
-	public function getBodywork() {
+	public function getBodywork() 
+	{
 		return $this->bodywork;
 	}
 
-	public function getColor() {
+	public function getColor() 
+	{
 		return $this->color;
 	}
 
-	public function getFuel() {
-		return $this->fuel;
-	}
-
-	public function getTransmission() {
+	public function getTransmission() 
+	{
 		return $this->transmission;
 	}
 
-	public function getSold() {
+	public function getSold() 
+	{
 		return $this->sold;
 	}
 
-	public function setName($name) {
+	public function setName($name) 
+	{
 		$this->name = $name;
 		return $this;
 	}
 
-	public function setDrivenKm($drivenKm) {
+	public function setDrivenKm($drivenKm) 
+	{
 		$this->drivenKm = $drivenKm;
 		return $this;
 	}
 
-	public function setPrice($price) {
+	public function setPrice($price) 
+	{
 		$this->price = $price;
 		return $this;
 	}
 
-	public function setPriceVat($priceVat) {
+	public function setPriceVat($priceVat) 
+	{
 		$this->priceVat = $priceVat;
 		return $this;
 	}
 
-	public function setEnginePower($enginePower) {
+	public function setEnginePower($enginePower) 
+	{
 		$this->enginePower = $enginePower;
 		return $this;
 	}
 
-	public function setEngineVolume($engineVolume) {
+	public function setEngineVolume($engineVolume) 
+	{
 		$this->engineVolume = $engineVolume;
 		return $this;
 	}
 
-	public function setDateOfManufacture($dateOfManufacture) {
+	public function setDateOfManufacture($dateOfManufacture) 
+	{
 		$this->dateOfManufacture = $dateOfManufacture;
 		return $this;
 	}
 
-	public function setShortInfo($shortInfo) {
+	public function setShortInfo($shortInfo) 
+	{
 		$this->shortInfo = $shortInfo;
 		return $this;
 	}
 
-	public function setBrand($brand) {
-		$this->brand = $brand;
-		return $this;
-	}
-
-	public function setModel($model) {
-		$this->model = $model;
-		return $this;
-	}
-
-	public function setBodywork($bodywork) {
+	public function setBodywork($bodywork) 
+	{
 		$this->bodywork = $bodywork;
 		return $this;
 	}
 
-	public function setColor($color) {
+	public function setColor($color) 
+	{
 		$this->color = $color;
 		return $this;
 	}
 
-	public function setFuel($fuel) {
-		$this->fuel = $fuel;
-		return $this;
-	}
-
-	public function setTransmission($transmission) {
+	public function setTransmission($transmission) 
+	{
 		$this->transmission = $transmission;
 		return $this;
 	}
 
-	public function setSold($sold) {
+	public function setSold($sold) 
+	{
 		$this->sold = $sold;
 		return $this;
 	}
 
+    /**
+     * Gets the value of model.
+     *
+     * @return mixed
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
 
+    /**
+     * Sets the value of model.
+     *
+     * @param mixed $model the model
+     *
+     * @return self
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
 
+        return $this;
+    }
 
+    /**
+     * Gets the value of condition.
+     *
+     * @return mixed
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
 
+    /**
+     * Sets the value of condition.
+     *
+     * @param mixed $condition the condition
+     *
+     * @return self
+     */
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of fuel type.
+     *
+     * @return mixed
+     */
+    public function getFuelType()
+    {
+        return $this->fuelType;
+    }
+
+    /**
+     * Sets the value of fuel type.
+     *
+     * @param mixed $fuelType the fuel type
+     *
+     * @return self
+     */
+    public function setFuelType($fuelType)
+    {
+        $this->fuelType = $fuelType;
+
+        return $this;
+    }
 }
