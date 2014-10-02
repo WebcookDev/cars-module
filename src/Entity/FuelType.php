@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="cars_fuelTtpe")
+ * @ORM\Table(name="cars_fuelType")
  */
 class FuelType extends \WebCMS\Entity\Entity
 {
