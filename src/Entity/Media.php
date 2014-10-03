@@ -21,7 +21,7 @@ class Media extends \WebCMS\Entity\Entity
 	private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Car") 
+     * @ORM\ManyToOne(targetEntity="Car", inversedBy="photos") 
      */
     private $car;
 
