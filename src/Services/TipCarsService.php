@@ -10,6 +10,8 @@ use WebCMS\CarsModule\Entity\Condition;
 use WebCMS\CarsModule\Entity\FuelType;
 use WebCMS\CarsModule\Entity\Media;
 
+set_time_limit(600);
+
 class TipCarsService extends Common\AbstractXmlServiceParser
 {
 	const DESTINATION_BASE = './upload/';
@@ -106,7 +108,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 
 					$photoEntity->setCar($carEntity);
 					$photoEntity->setName($this->getObjectValue($photo->nazev));
-					$photoEntity->setPath('/upload/import_tipcars/' . $this->getObjectValue($photo->nazev));
+					$photoEntity->setPath($this->path . $this->getObjectValue($photo->nazev));
 					$photoEntity->setFromImport(true);
 					$photoEntity->setPhoto(true);
 					$photoEntity->setMain( (int) $this->getObjectValue($photo->main));
