@@ -33,7 +33,7 @@ class Media extends \WebCMS\Entity\Entity
     /**
      * @ORM\Column(type="boolean")
      */
-    private $foto;
+    private $photo;
 
     /**
      * @ORM\Column(type="boolean")
@@ -119,25 +119,25 @@ class Media extends \WebCMS\Entity\Entity
     }
 
     /**
-     * Gets the value of foto.
+     * Gets the value of photo.
      *
      * @return mixed
      */
-    public function getFoto()
+    public function getPhoto()
     {
-        return $this->foto;
+        return $this->photo;
     }
 
     /**
-     * Sets the value of foto.
+     * Sets the value of photo.
      *
-     * @param mixed $foto the foto
+     * @param mixed $photo the photo
      *
      * @return self
      */
-    public function setFoto($foto)
+    public function setPhoto($photo)
     {
-        $this->foto = $foto;
+        $this->photo = $photo;
 
         return $this;
     }

@@ -98,6 +98,12 @@ class Car extends \WebCMS\Entity\Entity
     private $fuelType;
 
     /**
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="Car") 
+     * @var Array
+     */
+    private $photos;
+
+    /**
      * Gets the value of name.
      *
      * @return mixed
@@ -503,5 +509,27 @@ class Car extends \WebCMS\Entity\Entity
         $this->vat = $vat;
 
         return $this;
+    }
+
+    public function getPhotos() 
+    {
+        return $this->photos;
+    }
+
+    public function setPhotos(Array $photos) 
+    {
+        $this->photos = $photos;
+
+        return $this;
+    }
+
+    public function getDefaultPhoto(){
+        foreach($this->getPhotos() as $photo){
+            if($photo->getMain()){
+                return $photo;
+            }
+        }
+        
+        return NULL;
     }
 }

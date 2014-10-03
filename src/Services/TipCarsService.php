@@ -107,7 +107,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 					$photoEntity->setCar($carEntity);
 					$photoEntity->setName($this->getObjectValue($photo->nazev));
 					$photoEntity->setFromImport(true);
-					$photoEntity->setFoto(true);
+					$photoEntity->setPhoto(true);
 					$photoEntity->setMain( (int) $this->getObjectValue($photo->main));
 					$photoEntity->setCreated(new \DateTime($this->getObjectValue($photo->attributes())));
 

@@ -16,26 +16,35 @@ use WebCMS\CarsModule\Entity\Car;
  */
 class CarsPresenter extends BasePresenter
 {
-	private $id;
-	
-	protected function startup() 
+    private $repository;
+    
+    private $car;
+
+    private $cars;
+    
+    protected function startup() 
     {
-		parent::startup();
-	}
+        parent::startup();
 
-	protected function beforeRender()
+        $this->repository = $this->em->getRepository('WebCMS\CarsModule\Entity\Car');
+    }
+
+    protected function beforeRender()
     {
-		parent::beforeRender();	
-	}
+        parent::beforeRender(); 
+    }
 
 
-	public function actionDefault($id)
-    {	
-    	
-	}
+    public function actionDefault($id)
+    {   
+        
+    }
 
-	public function renderDefault($id)
-    {	
-		$this->template->id = $id;
-	}
+    public function renderDefault($id)
+    {   
+        $this->cars = $this->repository->findAll(array('id' => 'DESC'));
+
+        $this->template->cars = $this->cars;
+        $this->template->id = $id;
+    }
 }
