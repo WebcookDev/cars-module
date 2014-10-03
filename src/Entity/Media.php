@@ -40,6 +40,11 @@ class Media extends \WebCMS\Entity\Entity
      */
     private $main;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
 
     /**
      * Gets the value of name.
@@ -157,6 +162,30 @@ class Media extends \WebCMS\Entity\Entity
     public function setMain($main)
     {
         $this->main = $main;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of created.
+     *
+     * @return mixed
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Sets the value of created.
+     *
+     * @param mixed $created the created
+     *
+     * @return self
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
 
         return $this;
     }
