@@ -21,6 +21,11 @@ class Media extends \WebCMS\Entity\Entity
 	private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Car", inversedBy="photos") 
      */
     private $car;
@@ -66,6 +71,30 @@ class Media extends \WebCMS\Entity\Entity
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of path.
+     *
+     * @return mixed
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Sets the value of path.
+     *
+     * @param mixed $path the path
+     *
+     * @return self
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
         return $this;
     }
