@@ -61,6 +61,11 @@ class CarsPresenter extends BasePresenter
     {
         $template = $context->createTemplate();
         $template->cars = $context->em->getRepository('WebCMS\CarsModule\Entity\Car')->findAll(array('id' => 'DESC'));
+        $template->carPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
+            'moduleName' => 'Cars',
+            'presenter' => 'Cars'
+        ));
+        $template->abbr = $context->abbr;
         $template->setFile(APP_DIR . '/templates/cars-module/Cars/homepageBox.latte');
 
         return $template;  
