@@ -39,6 +39,11 @@ class Cars extends \WebCMS\Module
 		    'frontend' => true,
 		    'parameters' => true
 		),
+        array(
+            'name' => 'Brands',
+            'frontend' => true,
+            'parameters' => true
+        ),
 		array(
 		    'name' => 'Settings',
 		    'frontend' => false
@@ -48,6 +53,7 @@ class Cars extends \WebCMS\Module
     public function __construct()
     {
         $this->addBox('homepage', 'Cars', 'homepageBox');
+        $this->addBox('brands', 'Cars', 'brandsBox');
     }
 
     public function search(\Doctrine\ORM\EntityManager $em, $phrase, \WebCMS\Entity\Language $language)

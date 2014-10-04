@@ -48,11 +48,19 @@ class CarsPresenter extends BasePresenter
     {   
         if ($this->car) {
             $this->template->car = $this->car;
+            $this->template->similarCount = count($this->repository->findBy(array(
+                'brand' => $this->car->getBrand()
+            ))) -1;
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
             $this->cars = $this->repository->findAll(array('id' => 'DESC'));    
         }
         
+        $this->template->brandPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
+            'moduleName' => 'Cars',
+            'presenter' => 'Brands'
+        ));
+
         $this->template->cars = $this->cars;
         $this->template->id = $id;
     }
@@ -69,5 +77,19 @@ class CarsPresenter extends BasePresenter
         $template->setFile(APP_DIR . '/templates/cars-module/Cars/homepageBox.latte');
 
         return $template;  
+    }
+
+    public function brandsBox($context)
+    {
+        $template = $context->createTemplate();
+        $template->brands = $context->em->getRepository('WebCMS\CarsModule\Entity\Brand')->findAll();
+        $template->brandPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
+            'moduleName' => 'Cars',
+            'presenter' => 'Brands'
+        ));
+        $template->abbr = $context->abbr;
+        $template->setFile(APP_DIR . '/templates/cars-module/Brands/brandsBox.latte');
+
+        return $template;
     }
 }

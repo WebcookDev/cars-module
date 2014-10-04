@@ -95,6 +95,11 @@ class Car extends \WebCMS\Entity\Entity
     private $model;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Brand") 
+     */
+    private $brand;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Condition") 
      */
     private $condition;
@@ -418,6 +423,7 @@ class Car extends \WebCMS\Entity\Entity
     public function setModel($model)
     {
         $this->model = $model;
+        $this->setBrand($model->getBrand());
 
         return $this;
     }
@@ -548,5 +554,29 @@ class Car extends \WebCMS\Entity\Entity
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Gets the value of brand.
+     *
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * Sets the value of brand.
+     *
+     * @param mixed $brand the brand
+     *
+     * @return self
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+
+        return $this;
     }
 }
