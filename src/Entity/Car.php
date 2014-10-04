@@ -8,6 +8,7 @@
 namespace WebCMS\CarsModule\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as gedmo;
 
 /**
  * @ORM\Entity()
@@ -19,6 +20,12 @@ class Car extends \WebCMS\Entity\Entity
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
 	private $name;
+
+    /**
+     * @gedmo\Slug(fields={"name"})
+     * @orm\Column(length=255, unique=true)
+     */
+    private $slug;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -531,5 +538,15 @@ class Car extends \WebCMS\Entity\Entity
         }
         
         return NULL;
+    }
+
+    /**
+     * Gets the value of slug.
+     *
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

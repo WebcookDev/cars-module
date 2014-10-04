@@ -10,8 +10,6 @@ use WebCMS\CarsModule\Entity\Condition;
 use WebCMS\CarsModule\Entity\FuelType;
 use WebCMS\CarsModule\Entity\Media;
 
-set_time_limit(600);
-
 class TipCarsService extends Common\AbstractXmlServiceParser
 {
 	const DESTINATION_BASE = './upload/';
@@ -41,6 +39,8 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 
 	public function parseData($data)
 	{
+		set_time_limit(0);
+
 		$cars = $data->firma->cars;
 
 		if (!is_object($cars)) {
@@ -102,6 +102,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 						$imageExists = false;
 						$this->em->persist($photoEntity);
 					}
+					
 					if($imageExists){
 						$imageExists = $photoEntity->getCreated() == new \DateTime($this->getObjectValue($photo->attributes())) ? true : false;
 					}
