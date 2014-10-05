@@ -662,4 +662,14 @@ class Car extends \WebCMS\Entity\Entity
 
         return $this;
     }
+
+    /**
+     * Gets the value of equipments.
+     *
+     * @return mixed
+     */
+    public function getEquipments()
+    {
+        return $this->equipments;
+    }
 }
