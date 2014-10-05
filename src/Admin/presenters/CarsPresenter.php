@@ -86,6 +86,7 @@ class CarsPresenter extends BasePresenter
         $form = $this->createForm();
                 
         $form->addText('videoUrl', 'Video URL');
+        $form->addCheckbox('sold', 'Sold');
         $form->addCheckbox('hide', 'Hide');
 
         $form->addSubmit('submit', 'Save')->setAttribute('class', 'btn btn-success');
@@ -100,7 +101,10 @@ class CarsPresenter extends BasePresenter
     {
         $values = $form->getValues();
         
-        $this->car->setHide($values->hide);
+        foreach ($values as $key => $value) {
+            $setter = 'set' . ucfirst($key);
+            $this->car->$setter($value);
+        }
 
         $this->em->flush();
         $this->flashMessage('Car has been added/updated.', 'success');
@@ -114,13 +118,13 @@ class CarsPresenter extends BasePresenter
     {
         $serviceType = $this->settings->get('service', 'carsModule')->getValue();
 
-        $serviceFactory = new Common\ServiceFactory($serviceType, $this->em, $this->settings);
-        $service = $serviceFactory->createService();
-
         try {
+            $serviceFactory = new Common\ServiceFactory($serviceType, $this->em, $this->settings);
+            $service = $serviceFactory->createService();    
             $service->synchronize();    
+            
             $this->flashMessage('Data has been downloaded from the service point.', 'success');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->flashMessage($e->getMessage(), 'danger');
         }
         
