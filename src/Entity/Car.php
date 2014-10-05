@@ -116,6 +116,16 @@ class Car extends \WebCMS\Entity\Entity
     private $photos;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hide;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $videoUrl;
+
+    /**
      * Gets the value of name.
      *
      * @return mixed
@@ -576,6 +586,54 @@ class Car extends \WebCMS\Entity\Entity
     public function setBrand($brand)
     {
         $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of hide.
+     *
+     * @return mixed
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * Sets the value of hide.
+     *
+     * @param mixed $hide the hide
+     *
+     * @return self
+     */
+    public function setHide($hide)
+    {
+        $this->hide = $hide;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of videoUrl.
+     *
+     * @return mixed
+     */
+    public function getVideoUrl()
+    {
+        return $this->videoUrl;
+    }
+
+    /**
+     * Sets the value of videoUrl.
+     *
+     * @param mixed $videoUrl the video url
+     *
+     * @return self
+     */
+    public function setVideoUrl($videoUrl)
+    {
+        $this->videoUrl = $videoUrl;
 
         return $this;
     }

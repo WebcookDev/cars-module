@@ -61,6 +61,7 @@ class Cars extends \WebCMS\Module
         $query = $em->getRepository('WebCMS\CarsModule\Entity\Car')
                     ->createQueryBuilder('p')
                        ->where('p.name LIKE :search')
+                       ->andWhere('p.hide = 0')
                        ->setParameter('search', '%' . $phrase . '%')
                        ->getQuery();
         $cars = $query->getResult();

@@ -38,13 +38,16 @@ class BrandsPresenter extends BasePresenter
 
 
     public function actionDefault($id)
-    {   
+    {
         $parameters = $this->getParameter();
         if (count($parameters['parameters']) > 0) {
             $brandSlug = $parameters['parameters'][0];
             $brand = $this->brandRepository->findOneBySlug($brandSlug);
 
-            $this->cars = $this->repository->findByBrand($brand);
+            $this->cars = $this->repository->findBy(array(
+                'brand' => $brand,
+                'hide' => false
+            ));
         }
     }
 

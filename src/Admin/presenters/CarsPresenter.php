@@ -85,6 +85,9 @@ class CarsPresenter extends BasePresenter
     {
         $form = $this->createForm();
                 
+        $form->addText('videoUrl', 'Video URL');
+        $form->addCheckbox('hide', 'Hide');
+
         $form->addSubmit('submit', 'Save')->setAttribute('class', 'btn btn-success');
         $form->onSuccess[] = callback($this, 'carFormSubmitted');
 
@@ -97,10 +100,14 @@ class CarsPresenter extends BasePresenter
     {
         $values = $form->getValues();
         
+        $this->car->setHide($values->hide);
+
         $this->em->flush();
-        $this->flashMessage('Not implemented yet.', 'success');
+        $this->flashMessage('Car has been added/updated.', 'success');
         
-        $this->forward('this');
+        $this->forward('default', array(
+            'idPage' => $this->actualPage->getId()
+        ));
     }
 
     public function actionSynchronize()

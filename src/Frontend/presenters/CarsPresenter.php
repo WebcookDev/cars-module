@@ -40,7 +40,10 @@ class CarsPresenter extends BasePresenter
         $parameters = $this->getParameter();
         if (count($parameters['parameters']) > 0) {
             $slug = $parameters['parameters'][0];
-            $this->car = $this->repository->findOneBySlug($slug);
+            $this->car = $this->repository->findOneBy(array(
+                'slug' => $slug,
+                'hide' => false
+            ));
         }
     }
 
@@ -49,11 +52,14 @@ class CarsPresenter extends BasePresenter
         if ($this->car) {
             $this->template->car = $this->car;
             $this->template->similarCount = count($this->repository->findBy(array(
-                'brand' => $this->car->getBrand()
+                'brand' => $this->car->getBrand(),
+                'hide' => false
             ))) -1;
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
-            $this->cars = $this->repository->findAll(array('id' => 'DESC'));    
+            $this->cars = $this->repository->findBy(array(
+                'hide' => false
+            ) ,array('id' => 'DESC'));    
         }
         
         $this->template->brandPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
@@ -68,7 +74,9 @@ class CarsPresenter extends BasePresenter
     public function homepageBox($context)
     {
         $template = $context->createTemplate();
-        $template->cars = $context->em->getRepository('WebCMS\CarsModule\Entity\Car')->findAll(array('id' => 'DESC'));
+        $template->cars = $context->em->getRepository('WebCMS\CarsModule\Entity\Car')->findBy(array(
+            'hide' => false
+        ), array('id' => 'DESC'));
         $template->carPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',
             'presenter' => 'Cars'
@@ -82,7 +90,9 @@ class CarsPresenter extends BasePresenter
     public function brandsBox($context)
     {
         $template = $context->createTemplate();
-        $template->brands = $context->em->getRepository('WebCMS\CarsModule\Entity\Brand')->findAll();
+        $template->brands = $context->em->getRepository('WebCMS\CarsModule\Entity\Brand')->findAll(array(
+            'hide' => false
+        ));
         $template->brandPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',
             'presenter' => 'Brands'
