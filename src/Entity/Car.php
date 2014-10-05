@@ -9,6 +9,7 @@ namespace WebCMS\CarsModule\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as gedmo;
+use Doctrine\Common\Collections\Collection\ArrayCollection;
 
 /**
  * @ORM\Entity()
@@ -100,6 +101,11 @@ class Car extends \WebCMS\Entity\Entity
     private $brand;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Equipment") 
+     */
+    private $equipments;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Condition") 
      */
     private $condition;
@@ -124,6 +130,25 @@ class Car extends \WebCMS\Entity\Entity
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $videoUrl;
+
+    public function __construct()
+    {
+        $this->equipments = new ArrayCollection;
+    }
+
+    public function addEquipment(Equipment $equipment)
+    {
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments->add($equipment);
+        }
+    }
+
+    public function removeEquipment(Equipment $equipment)
+    {
+        if ($this->equipment->contains($equipment)) {
+            $this->equipments->removeElement($equipment);
+        }
+    }
 
     /**
      * Gets the value of name.
