@@ -51,6 +51,7 @@ class CarsPresenter extends BasePresenter
     {   
         if ($this->car) {
             $this->template->car = $this->car;
+            $this->template->photos = $this->car->getPhotos()->toArray();
             $this->template->similarCount = count($this->repository->findBy(array(
                 'brand' => $this->car->getBrand(),
                 'hide' => false
@@ -66,6 +67,8 @@ class CarsPresenter extends BasePresenter
             'moduleName' => 'Cars',
             'presenter' => 'Brands'
         ));
+
+
 
         $this->template->cars = $this->cars;
         $this->template->id = $id;
