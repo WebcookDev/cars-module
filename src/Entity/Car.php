@@ -9,7 +9,7 @@ namespace WebCMS\CarsModule\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as gedmo;
-use Doctrine\Common\Collections\Collection\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity()
