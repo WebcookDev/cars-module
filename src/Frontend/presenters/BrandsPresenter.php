@@ -22,6 +22,8 @@ class BrandsPresenter extends BasePresenter
     private $brandRepository;
 
     private $cars = array();
+
+    private $car;
     
     protected function startup() 
     {
@@ -42,6 +44,14 @@ class BrandsPresenter extends BasePresenter
         $parameters = $this->getParameter();
         if (count($parameters['parameters']) > 0) {
             $brandSlug = $parameters['parameters'][0];
+
+            if (isset($parameters['parameters'][1])) {
+                $this->car = $this->repository->findOneBy(array(
+                    'slug' => $parameters['parameters'][1],
+                    'hide' => false
+                ));
+            }
+
             $brand = $this->brandRepository->findOneBySlug($brandSlug);
 
             $this->cars = $this->repository->findBy(array(
@@ -53,6 +63,24 @@ class BrandsPresenter extends BasePresenter
 
     public function renderDefault($id)
     {           
+
+        if ($this->car) {
+            $this->template->car = $this->car;
+            $this->template->similarCount = count($this->repository->findBy(array(
+                'brand' => $this->car->getBrand(),
+                'hide' => false
+            ))) -1;
+
+            $this->template->carPrev = $this->repository->findPrevious($this->car);
+            $this->template->carNext = $this->repository->findNext($this->car);
+            $this->template->setFile(APP_DIR . '/templates/cars-module/Brands/detail.latte');
+        }
+
+        $this->template->brandPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
+            'moduleName' => 'Cars',
+            'presenter' => 'Brands'
+        ));
+
         $this->template->carPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',
             'presenter' => 'Cars'
