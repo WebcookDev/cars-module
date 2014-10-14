@@ -55,6 +55,23 @@ class CarsPresenter extends BasePresenter
                 'brand' => $this->car->getBrand(),
                 'hide' => false
             ))) -1;
+
+            $carPrev = $this->repository->matching($this->car->getPrev());
+            if(!count($carPrev)){
+                $carPrev = $this->repository->findBy(array(
+                    'hide' => false
+                ) ,array('id' => 'DESC'), 1);    
+            }
+
+            $carNext = $this->repository->matching($this->car->getNext());
+            if(!count($carNext)){
+                $carNext = $this->repository->findBy(array(
+                    'hide' => false
+                ) ,array('id' => 'ASC'), 1);    
+            }
+
+            $this->template->carPrev = $carPrev[0];
+            $this->template->carNext = $carNext[0];
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
             $this->cars = $this->repository->findBy(array(
@@ -102,4 +119,5 @@ class CarsPresenter extends BasePresenter
 
         return $template;
     }
+
 }
