@@ -36,7 +36,7 @@ class CarsPresenter extends BasePresenter
 
 
     public function actionDefault($id)
-    {   
+    {
         $parameters = $this->getParameter();
         if (count($parameters['parameters']) > 0) {
             $slug = $parameters['parameters'][0];
@@ -56,22 +56,8 @@ class CarsPresenter extends BasePresenter
                 'hide' => false
             ))) -1;
 
-            $carPrev = $this->repository->matching($this->car->getPrev());
-            if(!count($carPrev)){
-                $carPrev = $this->repository->findBy(array(
-                    'hide' => false
-                ) ,array('id' => 'DESC'), 1);    
-            }
-
-            $carNext = $this->repository->matching($this->car->getNext());
-            if(!count($carNext)){
-                $carNext = $this->repository->findBy(array(
-                    'hide' => false
-                ) ,array('id' => 'ASC'), 1);    
-            }
-
-            $this->template->carPrev = $carPrev[0];
-            $this->template->carNext = $carNext[0];
+            $this->template->carPrev = $this->repository->findPrevious($this->car);
+            $this->template->carNext = $this->repository->findNext($this->car);
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
             $this->cars = $this->repository->findBy(array(

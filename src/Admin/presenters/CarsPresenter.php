@@ -125,7 +125,8 @@ class CarsPresenter extends BasePresenter
             
             $this->flashMessage('Data has been downloaded from the service point.', 'success');
         } catch (\Exception $e) {
-            $this->flashMessage($e->getMessage(), 'danger');
+            // log $e->getMessage()
+            $this->flashMessage('Synchronization failed.', 'danger', false);
         }
         
         $this->redirect('default', array(

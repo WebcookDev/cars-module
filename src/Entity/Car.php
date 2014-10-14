@@ -10,10 +10,9 @@ namespace WebCMS\CarsModule\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="WebCMS\CarsModule\Entity\CarRepository")
  * @ORM\Table(name="cars_car")
  */
 class Car extends \WebCMS\Entity\Entity
@@ -135,6 +134,7 @@ class Car extends \WebCMS\Entity\Entity
     public function __construct()
     {
         $this->equipments = new ArrayCollection;
+        $this->hide = false;
     }
 
     public function addEquipment(Equipment $equipment)
@@ -672,27 +672,5 @@ class Car extends \WebCMS\Entity\Entity
     public function getEquipments()
     {
         return $this->equipments;
-    }
-
-    public function getPrev()
-    {
-        $criteria = new Criteria;
-        $criteria->where($criteria->expr()->lt('id', $this->getId()));
-        $criteria->andWhere($criteria->expr()->eq('hide', false));
-        $criteria->orderBy(array('id' => 'DESC'));
-        $criteria->setMaxResults(1);
-
-
-        return $criteria;
-    }
-
-    public function getNext()
-    {
-        $criteria = new Criteria;
-        $criteria->where($criteria->expr()->gt('id', $this->getId()));
-        $criteria->andWhere($criteria->expr()->eq('hide', false));
-        $criteria->setMaxResults(1);
-
-        return $criteria;
     }
 }

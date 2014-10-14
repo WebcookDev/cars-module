@@ -155,8 +155,10 @@ class TipCarsService extends Common\AbstractXmlServiceParser
         }
 
         preg_match('/(\d{4})(\d{2})/', $this->getObjectValue($car->made_date), $date);
-        $carEntity->setDateOfManufacture(new \DateTime($date[1] . '-' . $date[2] . '-1'));
-
+        if (count($date) > 1) {
+            $carEntity->setDateOfManufacture(new \DateTime($date[1] . '-' . $date[2] . '-1'));    
+        }
+        
         return $carEntity;
     }
 
