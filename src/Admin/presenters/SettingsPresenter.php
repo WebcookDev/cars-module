@@ -33,6 +33,8 @@ class SettingsPresenter extends BasePresenter
     {
 		$settings = array();
 
+        $settings[] = $this->settings->get('Cars per page', 'carsModule' . $this->actualPage->getId(), 'text');
+
         $settings[] = $this->settings->get('service', 'carsModule', 'select', array(
             Services\TipCarsService::getServiceName() => 'Tip cars'
         ));

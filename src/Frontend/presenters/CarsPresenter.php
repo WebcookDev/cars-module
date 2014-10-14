@@ -21,6 +21,8 @@ class CarsPresenter extends BasePresenter
     private $car;
 
     private $cars;
+
+    private $cpp;
     
     protected function startup() 
     {
@@ -34,6 +36,33 @@ class CarsPresenter extends BasePresenter
         parent::beforeRender(); 
     }
 
+    private function loadCars() 
+    {
+        $page = $this->getParameter('p') ? $this->getParameter('p') : 0;
+        $this->cpp = $this->settings->get('Cars per page', 'carsModule' . $this->actualPage->getId(), 'text')->getValue();
+
+        $this->cars = $this->repository->findBy(array(
+            'hide' => false
+        ), array('id' => 'DESC'), $this->cpp, $page * $this->cpp);
+
+
+    }
+
+    public function handleLoadCars($p) 
+    {
+        $this->loadCars();
+
+        $template = $this->createTemplate();
+        $template->setFile('../app/templates/cars-module/Cars/cars.latte');
+        $template->page = $p;
+        $template->actualPage = $this->actualPage;
+        $template->abbr = $this->abbr;
+        $template->cars = $this->cars;
+
+        $this->payload->page = $p;
+        $this->payload->data = $template->__toString();
+        $this->terminate();
+    }
 
     public function actionDefault($id)
     {   
@@ -45,6 +74,8 @@ class CarsPresenter extends BasePresenter
                 'hide' => false
             ));
         }
+
+        $this->loadCars();
     }
 
     public function renderDefault($id)
@@ -57,26 +88,26 @@ class CarsPresenter extends BasePresenter
             ))) -1;
 
             $carPrev = $this->repository->matching($this->car->getPrev());
+            $carPrev = $carPrev[0];
             if(!count($carPrev)){
-                $carPrev = $this->repository->findBy(array(
+                $carPrev = $this->repository->findOneBy(array(
                     'hide' => false
                 ) ,array('id' => 'DESC'), 1);    
             }
 
             $carNext = $this->repository->matching($this->car->getNext());
+            $carNext = $carNext[0];
             if(!count($carNext)){
-                $carNext = $this->repository->findBy(array(
+                $carNext = $this->repository->findOneBy(array(
                     'hide' => false
                 ) ,array('id' => 'ASC'), 1);    
             }
 
-            $this->template->carPrev = $carPrev[0];
-            $this->template->carNext = $carNext[0];
+            $this->template->carPrev = $carPrev;
+            $this->template->carNext = $carNext;
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
-            $this->cars = $this->repository->findBy(array(
-                'hide' => false
-            ) ,array('id' => 'DESC'));    
+            $this->template->maxPages = ceil(count($this->repository->findAll()) / $this->cpp);
         }
         
         $this->template->brandPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
@@ -84,6 +115,7 @@ class CarsPresenter extends BasePresenter
             'presenter' => 'Brands'
         ));
 
+        $this->template->page = $this->getParameter('p') ? $this->getParameter('p') : 0;
         $this->template->cars = $this->cars;
         $this->template->id = $id;
     }
