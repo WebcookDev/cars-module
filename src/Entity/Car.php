@@ -131,10 +131,17 @@ class Car extends \WebCMS\Entity\Entity
      */
     private $videoUrl;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $top;
+
+
     public function __construct()
     {
         $this->equipments = new ArrayCollection;
         $this->hide = false;
+        $this->top = false;
     }
 
     public function addEquipment(Equipment $equipment)
@@ -660,6 +667,30 @@ class Car extends \WebCMS\Entity\Entity
     public function setVideoUrl($videoUrl)
     {
         $this->videoUrl = $videoUrl;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of top.
+     *
+     * @return mixed
+     */
+    public function getTop()
+    {
+        return $this->top;
+    }
+
+    /**
+     * Sets the value of top.
+     *
+     * @param mixed $top the top
+     *
+     * @return self
+     */
+    public function setTop($top)
+    {
+        $this->top = $top;
 
         return $this;
     }
