@@ -66,8 +66,12 @@ class CarsPresenter extends BasePresenter
         $grid->addColumnText('condition', 'Condition')->setCustomRender(function($item) {
             return $item->getCondition()->getName();
         });
+        $grid->addColumnText('top', 'Top')->setCustomRender(function($item) {
+            return $item->getTop() ? 'yes' : 'no';
+        });
 
         $grid->addActionHref("update", 'Edit', 'update', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
+        $grid->addActionHref("top", 'Top', 'top', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
 
         return $grid;
     }
@@ -79,6 +83,26 @@ class CarsPresenter extends BasePresenter
         $this->car = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->find($id);
 
         $this->template->idPage = $idPage;
+    }
+
+    public function actionTop($id, $idPage)
+    {
+        $topCar = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->findOneBy(array(
+            'top' => true
+        ));
+        if ($topCar) {
+            $topCar->setTop(false);
+        }
+
+        $this->car = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->find($id);
+        $this->car->setTop(true);
+
+        $this->em->flush();
+
+        $this->flashMessage('Car has been set as top car', 'success');
+        $this->forward('default', array(
+            'idPage' => $this->actualPage->getId()
+        ));
     }
 
     protected function createComponentCarForm()

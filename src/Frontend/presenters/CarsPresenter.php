@@ -92,6 +92,10 @@ class CarsPresenter extends BasePresenter
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
             $this->template->maxPages = ceil(count($this->repository->findAll()) / $this->cpp);
+            $topCar = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->findOneBy(array(
+                'top' => true
+            ));
+            $this->template->topCar = $topCar ? $topCar : null;
         }
         
         $this->template->brandPage = $this->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
@@ -114,6 +118,10 @@ class CarsPresenter extends BasePresenter
             'moduleName' => 'Cars',
             'presenter' => 'Cars'
         ));
+        $topCar = $context->em->getRepository('\WebCMS\CarsModule\Entity\Car')->findOneBy(array(
+            'top' => true
+        ));
+        $template->topCar = $topCar ? $topCar : null;
         $template->abbr = $context->abbr;
         $template->setFile(APP_DIR . '/templates/cars-module/Cars/homepageBox.latte');
 
