@@ -16,18 +16,29 @@ abstract class AbstractXmlServiceParser implements IServiceParser
 		$this->settings = $settings;
 	}
 
-	private function XmlToArray($xmlData)
+	protected function XmlToArray($xmlData)
 	{
 		return simplexml_load_string($xmlData);
 	}
 
 	public function synchronize()
 	{
+		if (!$this->needUpdate()) {
+            throw new \Exception('Nothing changed from last update.');
+        }
+        
+		$response = $this->makeRequest($this->assembleUrl());
+
+		return $this->parseData($this->xmlToArray($response));
+	}
+
+	public function makeRequest($url)
+	{
 		$client = new Client();
-		$response = $client->get($this->assembleUrl())->send();
+		$response = $client->get($url)->send();
 
 		if ($response->getStatusCode() === 200) {
-			return $this->parseData($this->xmlToArray($response->getBody()));
+			return $response->getBody();
 		} else {
 			throw new \Exception('Wrong request.');
 		}

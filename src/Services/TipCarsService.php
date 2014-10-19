@@ -19,6 +19,18 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     /* @var \WebCMS\Helpers\ThumbnailCreator */
     private $thumbnailCreator;
 
+    private $username;
+
+    private $serviceId;
+
+    public function __construct($em, $settings)
+    {
+        parent::__construct($em, $settings);
+
+        $this->username = $this->settings->get('Tipcars username', 'carsModule')->getValue();
+        $this->serviceId = $this->settings->get('Tipcars service id', 'carsModule')->getValue();
+    }
+
     public static function getServiceName()
     {
         return 'tipCarsService';
@@ -26,11 +38,8 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 
     public function assembleUrl()
     {
-        $username = $this->settings->get('Tipcars username', 'carsModule')->getValue();
-        $serviceId = $this->settings->get('Tipcars service id', 'carsModule')->getValue();
-
-        if (!empty($username) && !empty($serviceId)) {
-            return "http://export.tipcars.com/inzerce_xml.php?R=$username&F=$serviceId&T=N&Z=N&V=N";    
+        if (!empty($this->username) && !empty($this->serviceId)) {
+            return "http://export.tipcars.com/inzerce_xml.php?R={$this->username}&F={$this->serviceId}&T=N&Z=N&V=N";    
         } else {
             throw new \Exception('Tipcars parameters not given.');
         }
@@ -184,5 +193,25 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     public function getObjectValue($object)
     {
         return (string) $object;
+    }
+
+    public function needUpdate()
+    {
+        $needUpdate = true;
+        $response = $this->xmlToArray($this->makeRequest("http://export.tipcars.com/inzerce_xml_cas.php?F={$this->serviceId}&R={$this->username}"));
+        if (($time = strtotime((string) $response->firma->cas)) !== false) {
+            $lastUpdate = $this->settings->get('tipcarsLastUpdate', 'carsModule')->getValue();
+            if (!empty($lastUpdate)) {
+                $lastUpdate = strtotime($lastUpdate);
+                $needUpdate = $lastUpdate < $time;
+            }
+        }
+
+        if ($needUpdate) {
+            $this->settings->get('tipcarsLastUpdate', 'carsModule')->setValue((string) $response->firma->cas);
+            $this->em->flush();
+        }
+        
+        return $needUpdate;
     }
 }

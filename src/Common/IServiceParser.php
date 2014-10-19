@@ -9,4 +9,6 @@ interface IServiceParser
 	function assembleUrl();
 
 	function parseData($data);
+
+	function needUpdate();
 }
