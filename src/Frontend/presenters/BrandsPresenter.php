@@ -57,7 +57,7 @@ class BrandsPresenter extends BasePresenter
             $this->cars = $this->repository->findBy(array(
                 'brand' => $brand,
                 'hide' => false
-            ));
+            ), array('dateIn' => 'DESC'));
         }
     }
 
