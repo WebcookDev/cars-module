@@ -70,6 +70,9 @@ class Car extends \WebCMS\Entity\Entity
      */
     private $dateOfManufacture;
 
+    /**
+     * @ORM\Column(type="date", length=255, nullable=true)
+     */
     private $dateIn;
 
     /**
