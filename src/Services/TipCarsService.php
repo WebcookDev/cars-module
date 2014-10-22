@@ -132,10 +132,12 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     private function setEntityAttributes($car, $carEntity)
     {
         $carEntity->setName($this->getObjectValue($car->manufacturer_text) . ' ' . $this->getObjectValue($car->model_text));
+        $carEntity->setFullname($this->getObjectValue($car->manufacturer_text) . ' ' . $this->getObjectValue($car->model_text) . ' ' . $this->getObjectValue($car->type_info));
 
         $model = $this->saveOrGetObject('Model', $this->getObjectValue($car->model_text));
         $model->setBrand($this->saveOrGetObject('Brand', $this->getObjectValue($car->manufacturer_text)));
 
+        $carEntity->setDateIn(new \DateTime($car->date_in));
         $carEntity->setModel($model);
         $carEntity->setCondition($this->saveOrGetObject('Condition', $this->getObjectValue($car->condition_text)));
         $carEntity->setFuelType($this->saveOrGetObject('FuelType', $this->getObjectValue($car->fuel_text)));

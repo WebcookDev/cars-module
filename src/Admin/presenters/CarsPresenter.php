@@ -50,10 +50,12 @@ class CarsPresenter extends BasePresenter
     protected function createComponentGrid($name)
     {
         $grid = $this->createGrid($this, $name, "\WebCMS\CarsModule\Entity\Car");
+        //$grid->setDefaultSort(array('dateIn' ⇒ 'DESC'));
 
-        $grid->addColumnText('name', 'Name');
+        $grid->addColumnText('fullname', 'Name');
         $grid->addColumnText('drivenKm', 'Driven');
-        $grid->addColumnDate('dateOfManufacture', 'Date');
+        $grid->addColumnDate('dateOfManufacture', 'Date of manufacture');
+        $grid->addColumnDate('dateIn', 'Date in');
         $grid->addColumnText('brand', 'Brand')->setCustomRender(function($item) {
             return $item->getModel()->getBrand()->getName();
         });
@@ -69,6 +71,8 @@ class CarsPresenter extends BasePresenter
         $grid->addColumnText('top', 'Top')->setCustomRender(function($item) {
             return $item->getTop() ? 'yes' : 'no';
         });
+
+        $grid->setDefaultSort(array('dateIn' => 'DESC'));
 
         $grid->addActionHref("update", 'Edit', 'update', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
         $grid->addActionHref("top", 'Top', 'top', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));

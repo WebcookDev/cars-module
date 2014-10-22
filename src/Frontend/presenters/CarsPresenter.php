@@ -43,7 +43,7 @@ class CarsPresenter extends BasePresenter
 
         $this->cars = $this->repository->findBy(array(
             'hide' => false
-        ), array('id' => 'DESC'), $this->cpp, $page * $this->cpp);
+        ), array('dateIn' => 'DESC'), $this->cpp, $page * $this->cpp);
 
 
     }
@@ -114,7 +114,7 @@ class CarsPresenter extends BasePresenter
         $template = $context->createTemplate();
         $template->cars = $context->em->getRepository('WebCMS\CarsModule\Entity\Car')->findBy(array(
             'hide' => false
-        ), array('id' => 'DESC'));
+        ), array('dateIn' => 'DESC'));
         $template->carPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',
             'presenter' => 'Cars'
