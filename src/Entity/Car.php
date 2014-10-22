@@ -23,7 +23,12 @@ class Car extends \WebCMS\Entity\Entity
 	private $name;
 
     /**
-     * @gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fullname;
+
+    /**
+     * @gedmo\Slug(fields={"fullname"})
      * @orm\Column(length=255, unique=true)
      */
     private $slug;
@@ -64,6 +69,8 @@ class Car extends \WebCMS\Entity\Entity
      * @ORM\Column(type="date", length=255, nullable=true)
      */
     private $dateOfManufacture;
+
+    private $dateIn;
 
     /**
      * @orm\Column(type="text", nullable=true)
@@ -180,6 +187,30 @@ class Car extends \WebCMS\Entity\Entity
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Gets the value of fullname.
+     *
+     * @return mixed
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * Sets the value of fullname.
+     *
+     * @param mixed $fullname the fullname
+     *
+     * @return self
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+
+        return $fullname;
     }
 
     /**
@@ -322,6 +353,30 @@ class Car extends \WebCMS\Entity\Entity
     public function setDateOfManufacture($dateOfManufacture)
     {
         $this->dateOfManufacture = $dateOfManufacture;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of dateIn.
+     *
+     * @return mixed
+     */
+    public function getDateIn()
+    {
+        return $this->dateIn;
+    }
+
+    /**
+     * Sets the value of dateIn.
+     *
+     * @param mixed $dateIn the date in
+     *
+     * @return self
+     */
+    public function setDateIn($dateIn)
+    {
+        $this->dateIn = $dateIn;
 
         return $this;
     }
