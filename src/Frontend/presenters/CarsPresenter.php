@@ -94,7 +94,7 @@ class CarsPresenter extends BasePresenter
                 'hide' => false
             ))) -1;
 
-            $this->template->seoTitle = $this->actualPage->getMetaTitle(). ' - ' . $this->car->getFullname();
+            $this->template->seoTitle = $this->car->getFullname() . ' - ' . $this->actualPage->getMetaTitle();
             $this->template->carPrev = $this->repository->findPrevious($this->car);
             $this->template->carNext = $this->repository->findNext($this->car);
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
