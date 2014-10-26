@@ -17,6 +17,10 @@ use WebCMS\CarsModule\Entity\Car;
 class CarsPresenter extends BasePresenter
 {
     private $repository;
+
+    private $brandRepository;
+
+    private $brand;
     
     private $car;
 
@@ -29,6 +33,7 @@ class CarsPresenter extends BasePresenter
         parent::startup();
 
         $this->repository = $this->em->getRepository('WebCMS\CarsModule\Entity\Car');
+        $this->brandRepository = $this->em->getRepository('WebCMS\CarsModule\Entity\Brand');
     }
 
     protected function beforeRender()
@@ -36,32 +41,30 @@ class CarsPresenter extends BasePresenter
         parent::beforeRender(); 
     }
 
-    private function loadCars() 
-    {
-        $page = $this->getParameter('p') ? $this->getParameter('p') : 0;
-        $this->cpp = $this->settings->get('Cars per page', 'carsModule' . $this->actualPage->getId(), 'text')->getValue();
-
-        $this->cars = $this->repository->findBy(array(
-            'hide' => false
-        ), array('dateIn' => 'DESC'), $this->cpp, $page * $this->cpp);
-
-
-    }
-
     public function handleLoadCars($p) 
     {
-        $this->loadCars();
+        $this->cars = $this->repository->findAll();
 
-        $template = $this->createTemplate();
-        $template->setFile('../app/templates/cars-module/Cars/cars.latte');
-        $template->page = $p;
-        $template->actualPage = $this->actualPage;
-        $template->abbr = $this->abbr;
-        $template->cars = $this->cars;
+        $json = array();
+        foreach ($this->cars as $car) {
+            $json[] = array(
+                'fullName' => $car->getFullname(),
+                'url' => $this->link('default', array(
+                    'path' => $this->actualPage->getPath(),
+                    'abbr' => $this->abbr,
+                    'parameters' => array($car->getSlug())
+                )),
+                'name' => $car->getName(),
+                'drivenKm' => $car->getDrivenKm(),
+                'price' => $car->getPrice(),
+                'sold' => $car->getSold(),
+                'photo' => \WebCMS\Helpers\SystemHelper::thumbnail($car->getDefaultPhoto()->getPath(), 'carBig_'),
+                'brand' => $car->getBrand()->getName()
+            );
+        }
 
-        $this->payload->page = $p;
-        $this->payload->data = $template->__toString();
-        $this->terminate();
+        $this->payload->data = $json;
+        $this->sendPayload();
     }
 
     public function actionDefault($id)
@@ -69,13 +72,17 @@ class CarsPresenter extends BasePresenter
         $parameters = $this->getParameter();
         if (count($parameters['parameters']) > 0) {
             $slug = $parameters['parameters'][0];
-            $this->car = $this->repository->findOneBy(array(
-                'slug' => $slug,
-                'hide' => false
+            $this->brand = $this->brandRepository->findOneBy(array(
+                'slug' => $slug
             ));
+            
+            if (!$this->brand) {
+                $this->car = $this->repository->findOneBy(array(
+                    'slug' => $slug,
+                    'hide' => false
+                ));
+            }
         }
-
-        $this->loadCars();
     }
 
     public function renderDefault($id)
@@ -92,7 +99,6 @@ class CarsPresenter extends BasePresenter
             $this->template->carNext = $this->repository->findNext($this->car);
             $this->template->setFile(APP_DIR . '/templates/cars-module/Cars/detail.latte');
         } else {
-            $this->template->maxPages = ceil(count($this->repository->findAll()) / $this->cpp);
             $topCar = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->findOneBy(array(
                 'top' => true
             ));
@@ -106,6 +112,7 @@ class CarsPresenter extends BasePresenter
 
         $this->template->page = $this->getParameter('p') ? $this->getParameter('p') : 0;
         $this->template->cars = $this->cars;
+        $this->template->brand = $this->brand;
         $this->template->id = $id;
     }
 
@@ -135,9 +142,9 @@ class CarsPresenter extends BasePresenter
         $template->brands = $context->em->getRepository('WebCMS\CarsModule\Entity\Brand')->findAll(array(
             'hide' => false
         ));
-        $template->brandPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
+        $template->carPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',
-            'presenter' => 'Brands'
+            'presenter' => 'Cars'
         ));
         $template->abbr = $context->abbr;
         $template->setFile(APP_DIR . '/templates/cars-module/Brands/brandsBox.latte');

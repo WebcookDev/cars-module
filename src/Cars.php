@@ -77,7 +77,7 @@ class Cars extends \WebCMS\Module
             $url = ($language->getDefaultFrontend() ? '' : $language->getAbbr() . '/') . $page->getPath() . '/' . $car->getSlug();
 
             $result = new \WebCMS\SearchModule\SearchResult;
-            $result->setTitle($car->getName() . ', ' . $car->getDateOfManufacture()->format('Y') . ', ' . \WebCMS\Helpers\SystemHelper::price($car->getPrice()));
+            $result->setTitle($car->getName() . ', ' . ($car->getDateOfManufacture() ? $car->getDateOfManufacture()->format('Y') : '') . ', ' . \WebCMS\Helpers\SystemHelper::price($car->getPrice()));
             $result->setUrl($url);
             $result->setPerex('');
             $result->setRate($rate++);
