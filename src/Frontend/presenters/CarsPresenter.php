@@ -49,6 +49,7 @@ class CarsPresenter extends BasePresenter
         foreach ($this->cars as $car) {
             $json[] = array(
                 'fullName' => $car->getFullname(),
+                'motorization' => $car->getMotorization(),
                 'id' => $car->getId(),
                 'url' => $this->link('default', array(
                     'path' => $this->actualPage->getPath(),
