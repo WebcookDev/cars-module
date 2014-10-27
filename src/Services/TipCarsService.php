@@ -133,6 +133,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     {
         $carEntity->setName($this->getObjectValue($car->manufacturer_text) . ' ' . $this->getObjectValue($car->model_text));
         $carEntity->setFullname($this->getObjectValue($car->manufacturer_text) . ' ' . $this->getObjectValue($car->model_text) . ' ' . $this->getObjectValue($car->type_info));
+        $carEntity->setMotorization($this->getObjectValue($car->type_info_varianta));
 
         $model = $this->saveOrGetObject('Model', $this->getObjectValue($car->model_text));
         $model->setBrand($this->saveOrGetObject('Brand', $this->getObjectValue($car->manufacturer_text)));

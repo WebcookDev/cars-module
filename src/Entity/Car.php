@@ -28,6 +28,11 @@ class Car extends \WebCMS\Entity\Entity
     private $fullname;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motorization;
+
+    /**
      * @gedmo\Slug(fields={"fullname"})
      * @orm\Column(length=255, unique=true)
      */
@@ -214,6 +219,30 @@ class Car extends \WebCMS\Entity\Entity
         $this->fullname = $fullname;
 
         return $fullname;
+    }
+
+    /**
+     * Gets the value of motorization.
+     *
+     * @return mixed
+     */
+    public function getMotorization()
+    {
+        return $this->motorization;
+    }
+
+    /**
+     * Sets the value of motorization.
+     *
+     * @param mixed $motorization the motorization
+     *
+     * @return self
+     */
+    public function setMotorization($motorization)
+    {
+        $this->motorization = $motorization;
+
+        return $motorization;
     }
 
     /**
