@@ -71,7 +71,7 @@ class CarsPresenter extends BasePresenter
         $grid->addColumnText('top', 'Top')->setCustomRender(function($item) {
             return $item->getTop() ? 'yes' : 'no';
         })->setSortable();
-        $grid->addColumnText('homepage', 'Homepage')->setCustomRender(function($item) {
+        $grid->addColumnText('homepage', 'Added To homepage')->setCustomRender(function($item) {
             return $item->getHomepage() ? 'yes' : 'no';
         })->setSortable();
 
@@ -79,7 +79,7 @@ class CarsPresenter extends BasePresenter
 
         $grid->addActionHref("update", 'Edit', 'update', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
         $grid->addActionHref("top", 'Top', 'top', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
-        $grid->addActionHref("homepage", 'Homepage', 'homepage', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
+        $grid->addActionHref("addToHomepage", 'Add to homepage', 'addToHomepage', array('idPage' => $this->actualPage->getId()))->getElementPrototype()->addAttributes(array('class' => array('btn', 'btn-primary', 'ajax')));
 
         return $grid;
     }
@@ -113,7 +113,7 @@ class CarsPresenter extends BasePresenter
         ));
     }
 
-    public function actionHomepage($id, $idPage)
+    public function actionAddToHomepage($id, $idPage)
     {
         $this->car = $this->em->getRepository('\WebCMS\CarsModule\Entity\Car')->find($id);
         $this->car->setHomepage($this->car->getHomepage() ? false : true);
