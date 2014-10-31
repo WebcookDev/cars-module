@@ -122,7 +122,8 @@ class CarsPresenter extends BasePresenter
     {
         $template = $context->createTemplate();
         $template->cars = $context->em->getRepository('WebCMS\CarsModule\Entity\Car')->findBy(array(
-            'hide' => false
+            'hide' => false,
+            'homepage' => true
         ), array('dateIn' => 'DESC'));
         $template->carPage = $context->em->getRepository('WebCMS\Entity\Page')->findOneBy(array(
             'moduleName' => 'Cars',

@@ -52,28 +52,28 @@ class CarsPresenter extends BasePresenter
         $grid = $this->createGrid($this, $name, "\WebCMS\CarsModule\Entity\Car");
         //$grid->setDefaultSort(array('dateIn' ⇒ 'DESC'));
 
-        $grid->addColumnText('fullname', 'Name');
-        $grid->addColumnText('drivenKm', 'Driven');
-        $grid->addColumnDate('dateOfManufacture', 'Date of manufacture');
-        $grid->addColumnDate('dateIn', 'Date in');
+        $grid->addColumnText('fullname', 'Name')->setSortable();
+        $grid->addColumnText('drivenKm', 'Driven')->setSortable();
+        $grid->addColumnDate('dateOfManufacture', 'Date of manufacture')->setSortable();
+        $grid->addColumnDate('dateIn', 'Date in')->setSortable();
         $grid->addColumnText('brand', 'Brand')->setCustomRender(function($item) {
             return $item->getModel()->getBrand()->getName();
-        });
+        })->setSortable();
         $grid->addColumnText('model', 'Model')->setCustomRender(function($item) {
             return $item->getModel()->getName();
-        });
+        })->setSortable();
         $grid->addColumnText('fuelType', 'Fuel type')->setCustomRender(function($item) {
             return $item->getFuelType()->getName();
-        });
+        })->setSortable();
         $grid->addColumnText('condition', 'Condition')->setCustomRender(function($item) {
             return $item->getCondition()->getName();
-        });
+        })->setSortable();
         $grid->addColumnText('top', 'Top')->setCustomRender(function($item) {
             return $item->getTop() ? 'yes' : 'no';
-        });
+        })->setSortable();
         $grid->addColumnText('homepage', 'Homepage')->setCustomRender(function($item) {
             return $item->getHomepage() ? 'yes' : 'no';
-        });
+        })->setSortable();
 
         $grid->setDefaultSort(array('dateIn' => 'DESC'));
 
