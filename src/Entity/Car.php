@@ -151,12 +151,18 @@ class Car extends \WebCMS\Entity\Entity
      */
     private $top;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $homepage;
+
 
     public function __construct()
     {
         $this->equipments = new ArrayCollection;
         $this->hide = false;
         $this->top = false;
+        $this->homepage = false;
     }
 
     public function addEquipment(Equipment $equipment)
@@ -778,6 +784,30 @@ class Car extends \WebCMS\Entity\Entity
     public function setTop($top)
     {
         $this->top = $top;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of homepage.
+     *
+     * @return mixed
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * Sets the value of homepage.
+     *
+     * @param mixed $homepage the homepage
+     *
+     * @return self
+     */
+    public function setHomepage($homepage)
+    {
+        $this->homepage = $homepage;
 
         return $this;
     }
