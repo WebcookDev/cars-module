@@ -306,7 +306,7 @@ class Car extends \WebCMS\Entity\Entity
      */
     public function getPriceVat()
     {
-        return $this->price * ($this->vat / 100 + 1);
+        return $this->price * (21 / 100 + 1);
     }
 
     /**
