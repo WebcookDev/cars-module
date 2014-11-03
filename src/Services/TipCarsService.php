@@ -150,12 +150,16 @@ class TipCarsService extends Common\AbstractXmlServiceParser
         $carEntity->setShortInfo($this->getObjectValue($car->note));
         $carEntity->setBodyWork($this->getObjectValue($car->body_text));
         $carEntity->setColor($this->getObjectValue($car->color_text));
-        //$carEntity->setTransmission();
-
+        
+        $transmission = '';
         foreach ($car->equipment->equipment_text as $e) {
             $equipmentName = (string) $e;
             $equipment = $this->em->getRepository('WebCMS\CarsModule\Entity\Equipment')->findOneByName($equipmentName);
-
+            
+            if (strpos($equipmentName, 'převodovka') !== false) {
+                $transmission = $equipmentName;
+            }
+    
             if (!$equipment) {
                 $equipment = new \WebCMS\CarsModule\Entity\Equipment;
                 $equipment->setName($equipmentName);
@@ -165,6 +169,8 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 
             $carEntity->addEquipment($equipment);
         }
+        
+        $carEntity->setTransmission($transmission);
 
         preg_match('/(\d{4})(\d{2})/', $this->getObjectValue($car->made_date), $date);
         if (count($date) > 1) {
