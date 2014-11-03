@@ -324,6 +324,16 @@ class Car extends \WebCMS\Entity\Entity
     }
 
     /**
+     * Gets the value of priceVat.
+     *
+     * @return mixed
+     */
+    public function getPriceWithoutVat()
+    {
+        return $this->price - $this->price * (21 / 121);
+    }
+
+    /**
      * Gets the value of enginePower.
      *
      * @return mixed
