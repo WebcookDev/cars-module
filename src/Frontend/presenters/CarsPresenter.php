@@ -59,6 +59,7 @@ class CarsPresenter extends BasePresenter
                 'name' => $car->getName(),
                 'drivenKm' => $car->getDrivenKm(),
                 'price' => $car->getPrice(),
+                'priceVat' => $car->getPriceVat(),
                 'sold' => $car->getSold(),
                 'photo' => \WebCMS\Helpers\SystemHelper::thumbnail($car->getDefaultPhoto()->getPath(), 'carBig_'),
                 'brand' => $car->getBrand()->getSlug()
