@@ -39,7 +39,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     public function assembleUrl()
     {
         if (!empty($this->username) && !empty($this->serviceId)) {
-            return "http://export.tipcars.com/inzerce_xml.php?R={$this->username}&F={$this->serviceId}&T=N&Z=N&V=N";    
+            return "http://export.tipcars.com/inzerce_xml.php?R={$this->username}&F={$this->serviceId}&T=N&V=N";    
         } else {
             throw new \Exception('Tipcars parameters not given.');
         }
@@ -117,7 +117,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
                 $photo = $photoEntity->getName();
                 $filePath = $this->path . '' . $photoEntity->getName();
 
-                $pic = "http://export.tipcars.com/foto.php?R=$username&F=$photo";
+                $pic = "http://export.tipcars.com/foto.php?R=$username&F=$photo&O=A";
 
                 file_put_contents($filePath, file_get_contents($pic));
 
