@@ -16,9 +16,18 @@ abstract class AbstractXmlServiceParser implements IServiceParser
 		$this->settings = $settings;
 	}
 
-	protected function XmlToArray($xmlData)
+	protected function XmlToArray($xmlData, $withoutGzip = false)
 	{
-		return simplexml_load_string($xmlData);
+		if ($this->settings->get('Enable Gzip', 'carsModule', 'checkbox')->getValue() && $withoutGzip === false) {
+
+			return simplexml_load_string(gzdecode($xmlData));
+
+		} else {
+
+			return simplexml_load_string($xmlData);
+
+		}
+		
 	}
 
 	public function synchronize()

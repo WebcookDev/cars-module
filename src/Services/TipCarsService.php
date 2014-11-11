@@ -23,12 +23,15 @@ class TipCarsService extends Common\AbstractXmlServiceParser
 
     private $serviceId;
 
+    private $gzip;
+
     public function __construct($em, $settings)
     {
         parent::__construct($em, $settings);
 
         $this->username = $this->settings->get('Tipcars username', 'carsModule')->getValue();
         $this->serviceId = $this->settings->get('Tipcars service id', 'carsModule')->getValue();
+        $this->gzip = $this->settings->get('Enable Gzip', 'carsModule', 'checkbox')->getValue();
     }
 
     public static function getServiceName()
@@ -39,7 +42,8 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     public function assembleUrl()
     {
         if (!empty($this->username) && !empty($this->serviceId)) {
-            return "http://export.tipcars.com/inzerce_xml.php?R={$this->username}&F={$this->serviceId}&T=N&V=N";    
+            $gzip = $this->gzip ? "A" : "N";
+            return "http://export.tipcars.com/inzerce_xml.php?R={$this->username}&F={$this->serviceId}&Z={$gzip}&T=N&V=N";    
         } else {
             throw new \Exception('Tipcars parameters not given.');
         }
@@ -117,7 +121,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
                 $photo = $photoEntity->getName();
                 $filePath = $this->path . '' . $photoEntity->getName();
 
-                $pic = "http://export.tipcars.com/foto.php?R=$username&F=$photo&O=A";
+                $pic = "http://export.tipcars.com/foto.php?R=$username&O=A&F=$photo";
 
                 file_put_contents($filePath, file_get_contents($pic));
 
@@ -207,7 +211,7 @@ class TipCarsService extends Common\AbstractXmlServiceParser
     public function needUpdate()
     {
         $needUpdate = true;
-        $response = $this->xmlToArray($this->makeRequest("http://export.tipcars.com/inzerce_xml_cas.php?F={$this->serviceId}&R={$this->username}"));
+        $response = $this->xmlToArray($this->makeRequest("http://export.tipcars.com/inzerce_xml_cas.php?F={$this->serviceId}&R={$this->username}"), $withoutGzip = true);
         if (($time = strtotime((string) $response->firma->cas)) !== false) {
             $lastUpdate = $this->settings->get('tipcarsLastUpdate', 'carsModule')->getValue();
             if (!empty($lastUpdate)) {

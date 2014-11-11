@@ -41,6 +41,8 @@ class SettingsPresenter extends BasePresenter
         $settings[] = $this->settings->get('Tipcars username', 'carsModule', 'text');
         $settings[] = $this->settings->get('Tipcars service id', 'carsModule', 'text');
 
+        $settings[] = $this->settings->get('Enable Gzip', 'carsModule', 'checkbox');
+
 		return $this->createSettingsForm($settings);
     }
 	
