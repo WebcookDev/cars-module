@@ -59,6 +59,8 @@ class TipCarsService extends Common\AbstractXmlServiceParser
             throw new \Exception('No data.');
         }
 
+        $this->removeCars($cars);
+
         foreach ($cars->car as $car) {
             $exists = $this->em->getRepository('WebCMS\CarsModule\Entity\Car')->findOneByServiceId($this->getObjectValue($car->custom_car_id));
 
@@ -226,5 +228,25 @@ class TipCarsService extends Common\AbstractXmlServiceParser
         }
         
         return $needUpdate;
+    }
+
+    public function removeCars($cars)
+    {
+        $dbCars = $this->em->getRepository('WebCMS\CarsModule\Entity\Car')->findAll();
+
+        $ids = [];
+
+        foreach ($cars->car as $car) {
+            $ids[] = $this->getObjectValue($car->custom_car_id);
+        }
+
+        foreach ($dbCars as $car) {
+            if (!in_array($car->getServiceId(), $ids)) {
+                $this->em->remove($car);
+                $this->em->flush();
+            }
+        }
+
+        
     }
 }

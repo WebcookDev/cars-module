@@ -132,6 +132,7 @@ class Car extends \WebCMS\Entity\Entity
 
     /**
      * @ORM\OneToMany(targetEntity="Media", mappedBy="car") 
+     * @ORM\JoinColumn(name="car_id", referencedColumnName="id", onDelete="CASCADE")
      * @var Array
      */
     private $photos;
