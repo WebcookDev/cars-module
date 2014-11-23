@@ -60,7 +60,6 @@ class TipCarsService extends Common\AbstractXmlServiceParser
         }
 
         $this->removeCars($cars);
-        exit;
 
         foreach ($cars->car as $car) {
             $exists = $this->em->getRepository('WebCMS\CarsModule\Entity\Car')->findOneByServiceId($this->getObjectValue($car->custom_car_id));
